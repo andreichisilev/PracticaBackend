@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using ProiectPractica.Data;
 
@@ -5,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
 builder.Services.AddDbContext<SocialMediaDB>(optionsAction => optionsAction.UseSqlServer(connectionString: "Server=.;Database=SocialMedia;Trusted_connection=True;TrustServerCertificate=Yes")) ;
 
 builder.Services.AddControllers();
