@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProiectPractica;
 using ProiectPractica.Data;
@@ -22,7 +23,7 @@ namespace Practica.Controllers
             _db = db;
 
         }
-
+        [Authorize]
         [HttpGet("PreziVremeaCumetre")]
         public IEnumerable<WeatherForecast> Get(int numberOfDaysToPredict, bool isHoliday)
         {

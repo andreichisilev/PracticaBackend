@@ -22,7 +22,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
         };
     });
-builder.Services.AddDbContext<SocialMediaDB>(optionsAction => optionsAction.UseSqlServer(connectionString: "Server=.;Database=SocialMedia;Trusted_connection=True;TrustServerCertificate=Yes")) ;
+builder.Services.AddDbContext<SocialMediaDB>(optionsAction => 
+    optionsAction.UseSqlServer(connectionString: builder.Configuration.GetConnectionString("SocialMediaDb")));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -39,6 +40,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

@@ -27,16 +27,31 @@ namespace ProiectPractica.Controllers
             _db= db;
             _config= config;
         }
+
+        private String convertHashPassword(String password)
+        {
+            string base64HashedPasswordBytes;
+            using (var sha256 = SHA256.Create())
+            {
+                var passwordBytes = Encoding.UTF8.GetBytes(password);
+                var hashedPasswordBytes = sha256.ComputeHash(passwordBytes);
+                base64HashedPasswordBytes = Convert.ToBase64String(hashedPasswordBytes);
+            }
+            return base64HashedPasswordBytes;
+        }
+
+        [HttpPost("login")]
         public ActionResult Login([FromBody] LoginDTO payload)
         {
+            /*
             string base64HashedPasswordBytes;
             using (var sha256 = SHA256.Create())
             {
                 var passwordBytes = Encoding.UTF8.GetBytes(payload.Password);
                 var hashedPasswordBytes = sha256.ComputeHash(passwordBytes);
                 base64HashedPasswordBytes = Convert.ToBase64String(hashedPasswordBytes);
-            }
-        
+            }*/
+            string base64HashedPasswordBytes= convertHashPassword(payload.Password);
             var existingUser = _db.Users
                 .Where(u => u.Email == payload.UserName
                         && u.HashedPassword == base64HashedPasswordBytes)
@@ -51,6 +66,25 @@ namespace ProiectPractica.Controllers
                 return Ok(jwt);
             }
 
+        }
+
+        [HttpPost("register")]
+        public ActionResult Register([FromBody] RegisterDTO payload)
+        {
+            if (_db.Users.Any(u => u.UserName == payload.UserName))
+                return BadRequest("Username is already taken.");
+
+            if (_db.Users.Any(u => u.Email == payload.Email))
+                return BadRequest("Email is already taken.");
+
+            User user = new User();
+            user.UserName = payload.UserName;
+            user.Email = payload.Email;
+            user.BirthDate = payload.BirthDate;
+            user.HashedPassword = convertHashPassword(payload.Password);
+            _db.Users.Add(user);
+            _db.SaveChanges();
+            return Ok();
         }
         private string GenerateJSONWebToken(User userInfo)
         {
