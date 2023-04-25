@@ -53,7 +53,7 @@ namespace ProiectPractica.Controllers
             }*/
             string base64HashedPasswordBytes= convertHashPassword(payload.Password);
             var existingUser = _db.Users
-                .Where(u => u.Email == payload.UserName
+                .Where(u => u.Email == payload.Email
                         && u.HashedPassword == base64HashedPasswordBytes)
                 .SingleOrDefault();
             if (existingUser == null)
