@@ -58,7 +58,7 @@ namespace ProiectPractica.Controllers
                 .SingleOrDefault();
             if (existingUser == null)
             {
-                return NotFound();
+                return NotFound("User doesn't exist");
             }
             else
             {
@@ -72,10 +72,10 @@ namespace ProiectPractica.Controllers
         public ActionResult Register([FromBody] RegisterDTO payload)
         {
             if (_db.Users.Any(u => u.UserName == payload.UserName))
-                return BadRequest("Username is already taken.");
+                return Conflict("Username is already taken.");
 
             if (_db.Users.Any(u => u.Email == payload.Email))
-                return BadRequest("Email is already taken.");
+                return Conflict("Email is already taken.");
 
             User user = new User();
             user.UserName = payload.UserName;

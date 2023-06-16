@@ -2,10 +2,10 @@
 {
     public class Comment
     {
-        public int CommentId { get; set; }
+        public int Id { get; set; }
         public int UserId { get; set; }
         public int PostId { get; set; }
-        public string CommentContent { get; set; }
+        public string Content { get; set; }
         public ICollection<Like> Likes { get; set; }
     }
 }
