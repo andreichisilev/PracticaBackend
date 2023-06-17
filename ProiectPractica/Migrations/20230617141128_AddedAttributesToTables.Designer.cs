@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProiectPractica.Data;
 
@@ -11,9 +12,11 @@ using ProiectPractica.Data;
 namespace ProiectPractica.Migrations
 {
     [DbContext(typeof(SocialMediaDB))]
-    partial class SocialMediaDBModelSnapshot : ModelSnapshot
+    [Migration("20230617141128_AddedAttributesToTables")]
+    partial class AddedAttributesToTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
