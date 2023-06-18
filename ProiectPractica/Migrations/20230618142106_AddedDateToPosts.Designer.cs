@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProiectPractica.Data;
 
@@ -11,9 +12,11 @@ using ProiectPractica.Data;
 namespace ProiectPractica.Migrations
 {
     [DbContext(typeof(SocialMediaDB))]
-    partial class SocialMediaDBModelSnapshot : ModelSnapshot
+    [Migration("20230618142106_AddedDateToPosts")]
+    partial class AddedDateToPosts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,7 +124,7 @@ namespace ProiectPractica.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateDeleted")
+                    b.Property<DateTime>("DateDeleted")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -133,6 +136,7 @@ namespace ProiectPractica.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfilePictureURL")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
