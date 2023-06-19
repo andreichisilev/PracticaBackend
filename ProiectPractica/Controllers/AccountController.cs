@@ -15,6 +15,7 @@ namespace ProiectPractica.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AccountController : ControllerBase
     {
         private readonly SocialMediaDB _db;
@@ -40,24 +41,8 @@ namespace ProiectPractica.Controllers
             return base64HashedPasswordBytes;
         }
 
-        private int getUserId()
-        {
-            string authorizationHeader = HttpContext.Request.Headers["Authorization"];
-            string jwt = null;
-            if (authorizationHeader != null
-                && authorizationHeader.StartsWith("Bearer "))
-            {
-                jwt = authorizationHeader.Substring("Bearer ".Length).Trim();
-            }
-
-            var token = new JwtSecurityTokenHandler().ReadJwtToken(jwt);
-            string userIdString = token.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
-            int userId = int.Parse(userIdString);
-            return userId;
-        }
-
+        
         [HttpPost("login")]
-        [AllowAnonymous]
         public ActionResult Login([FromBody] LoginDTO payload)
         {
             string base64HashedPasswordBytes= convertHashPassword(payload.Password);
@@ -78,56 +63,35 @@ namespace ProiectPractica.Controllers
         }
 
         [HttpPost("register")]
-        [AllowAnonymous]
         public ActionResult Register([FromBody] RegisterDTO payload)
         {
-            if (_db.Users.Any(u => u.Username == payload.Username))
-                return Conflict("Username is already taken.");
-
-            if (_db.Users.Any(u => u.Email == payload.Email))
-                return Conflict("Email is already taken.");
-            
             try
             {
+                if (_db.Users.Any(u => u.Username == payload.Username))
+                    return Conflict("Username is already taken.");
 
+                if (_db.Users.Any(u => u.Email == payload.Email))
+                    return Conflict("Email is already taken.");
+
+                
+                DateTime dateCreated = DateTime.Now;
                 User user = new User();
                 user.Username = payload.Username;
                 user.Email = payload.Email;
                 user.BirthDate = payload.BirthDate;
+                user.DateCreated = dateCreated;
                 user.ProfilePictureURL = payload.ProfilePictureURL;
                 user.HashedPassword = convertHashPassword(payload.Password);
                 _db.Users.Add(user);
                 _db.SaveChanges();
                 return Ok("Registration succesful");
-            }
-            catch (Exception ex)
+                
+            }catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
-        [HttpPut("changeProfilePicture")]
-        [Authorize]
-        public ActionResult ChangePictureProfile([FromBody] ChangeProfilePictureDTO payload)
-        {
-           int userId = getUserId();
-
-            User user = _db.Users
-                .Where(u => u.Id == userId)
-                .SingleOrDefault();
-            
-            if(user is null) {
-                return NotFound("User not existing.");
-            }
-
-            else
-            {
-                user.ProfilePictureURL = payload.profilePictureUrl;
-                _db.Users.Update(user);
-                _db.SaveChanges();
-                return Ok("Action completed");
-            }
-        }
 
         private string GenerateJSONWebToken(User userInfo)
         {
@@ -137,7 +101,7 @@ namespace ProiectPractica.Controllers
             var claims = new[] {
                     new Claim(JwtRegisteredClaimNames.Email, userInfo.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Sub, userInfo.Id.ToString())
+                    new Claim("userId", userInfo.Id.ToString())
                 };
 
             var token = new JwtSecurityToken(_config["JWT:Issuer"],

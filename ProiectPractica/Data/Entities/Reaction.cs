@@ -1,14 +1,8 @@
-﻿namespace ProiectPractica.Data.Entities
+﻿using static ProiectPractica.Enums;
+
+namespace ProiectPractica.Data.Entities
 {
-    public enum ReactionType
-    {
-        Like,
-        Love,
-        Haha,
-        Wow,
-        Sad,
-        Angry
-    }
+    
     public class Reaction
     {
         public int Id { get; set; }
