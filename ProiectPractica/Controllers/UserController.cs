@@ -57,7 +57,7 @@ namespace ProiectPractica.Controllers
         public ActionResult<ICollection<User>> GetAll(int pageSize, int pageNumber, UsersSortType sortType)
         {
             // as no tracking for performance improvement when you do not need to track changes
-            var usersQuery = _db.Users.AsNoTracking();
+            var usersQuery = _db.Users.Include(u => u.Posts).AsNoTracking();
 
             if (sortType == UsersSortType.UsernameAscendent)
                 usersQuery = usersQuery.OrderBy(u => u.Username);
@@ -85,6 +85,7 @@ namespace ProiectPractica.Controllers
         {
             User user = _db.Users
                 .Where(u => u.Id == id)
+                .Include(u => u.Posts)
                 .SingleOrDefault();
             if (user is null)
             {
@@ -118,6 +119,7 @@ namespace ProiectPractica.Controllers
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
+
         private int getUserId()
         {
             var currentUser = HttpContext.User;

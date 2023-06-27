@@ -9,7 +9,6 @@
         public string HashedPassword { get; set; }
         public string? ProfilePictureURL { get; set; }
         public DateTime DateCreated { get; set; }
-        public DateTime? DateDeleted { get; set; }
         public ICollection<Post> Posts { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Reaction> Reactions { get; set; }

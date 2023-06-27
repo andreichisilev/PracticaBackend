@@ -74,12 +74,11 @@ namespace ProiectPractica.Controllers
                     return Conflict("Email is already taken.");
 
                 
-                DateTime dateCreated = DateTime.Now;
                 User user = new User();
                 user.Username = payload.Username;
                 user.Email = payload.Email;
                 user.BirthDate = payload.BirthDate;
-                user.DateCreated = dateCreated;
+                user.DateCreated = DateTime.Now;
                 user.ProfilePictureURL = payload.ProfilePictureURL;
                 user.HashedPassword = convertHashPassword(payload.Password);
                 _db.Users.Add(user);
