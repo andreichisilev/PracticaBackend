@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProiectPractica.Data;
 
@@ -11,9 +12,11 @@ using ProiectPractica.Data;
 namespace ProiectPractica.Migrations
 {
     [DbContext(typeof(SocialMediaDB))]
-    partial class SocialMediaDBModelSnapshot : ModelSnapshot
+    [Migration("20230628155516_setDeleteBehaviorToRestrict")]
+    partial class setDeleteBehaviorToRestrict
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,7 +154,7 @@ namespace ProiectPractica.Migrations
                     b.HasOne("ProiectPractica.Data.Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Post");
 
@@ -163,7 +166,7 @@ namespace ProiectPractica.Migrations
                     b.HasOne("ProiectPractica.Data.Entities.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("User");
                 });
@@ -178,7 +181,7 @@ namespace ProiectPractica.Migrations
                     b.HasOne("ProiectPractica.Data.Entities.User", "User")
                         .WithMany("Reactions")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Post");
 

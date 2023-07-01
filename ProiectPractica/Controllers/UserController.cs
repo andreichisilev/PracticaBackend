@@ -57,7 +57,7 @@ namespace ProiectPractica.Controllers
         public ActionResult<ICollection<User>> GetAll(int pageSize, int pageNumber, UsersSortType sortType)
         {
             // as no tracking for performance improvement when you do not need to track changes
-            var usersQuery = _db.Users.Include(u => u.Posts).AsNoTracking();
+            var usersQuery = _db.Users.AsNoTracking();
 
             if (sortType == UsersSortType.UsernameAscendent)
                 usersQuery = usersQuery.OrderBy(u => u.Username);
