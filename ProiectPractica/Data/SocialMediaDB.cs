@@ -28,7 +28,6 @@ namespace ProiectPractica.Data
                 .HasForeignKey(r => r.PostId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)

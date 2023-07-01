@@ -216,7 +216,7 @@ namespace ProiectPractica.Controllers
         {
             try
             {
-                var reactions = _db.Comments.Where(r => r.Id == postId).ToList();
+                var reactions = _db.Reactions.Where(r => r.Id == postId).ToList();
                 if (reactions is null) return NotFound("No post with id: " + postId);
                 else return Ok(reactions);
             }

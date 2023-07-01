@@ -9,6 +9,7 @@ namespace ProiectPractica.DTOs
         [MaxLength(2200)]
         public string Content { get; set; }
         [Required]
+        [Url]
         public string PictureURL { get; set; }
      
     }

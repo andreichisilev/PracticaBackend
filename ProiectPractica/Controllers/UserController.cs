@@ -97,6 +97,14 @@ namespace ProiectPractica.Controllers
             }
         }
 
+        [HttpGet("getFeed")]
+        public ActionResult<List<Post>> GetFeed()
+        {
+            var posts = _db.Posts.Where(p => p.UserId != getUserId()).OrderByDescending(p => p.DatePosted).ToList();
+            return Ok(posts);
+            
+        }
+
         [HttpDelete("closeAccount")]
         public ActionResult CloseAccount() {
             try

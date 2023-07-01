@@ -49,7 +49,7 @@ namespace ProiectPractica.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("ProiectPractica.Data.Entities.Post", b =>
@@ -78,7 +78,7 @@ namespace ProiectPractica.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("ProiectPractica.Data.Entities.Reaction", b =>
@@ -104,7 +104,7 @@ namespace ProiectPractica.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reactions");
+                    b.ToTable("Reactions", (string)null);
                 });
 
             modelBuilder.Entity("ProiectPractica.Data.Entities.User", b =>
@@ -138,7 +138,7 @@ namespace ProiectPractica.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("ProiectPractica.Data.Entities.Comment", b =>
