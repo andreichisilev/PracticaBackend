@@ -13,6 +13,7 @@ namespace ProiectPractica.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Reaction> Reactions { get; set; }
+        public DbSet<FriendRequest> FriendRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

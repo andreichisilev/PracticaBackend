@@ -23,7 +23,7 @@ namespace ProiectPractica.Controllers
 
         }
 
-        [HttpPut("changeProfilePicture")]
+        [HttpPatch("changeProfilePicture")]
         public ActionResult ChangePictureProfile([FromBody] ChangeProfilePictureDTO payload)
         {
             try
